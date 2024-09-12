@@ -1,0 +1,6 @@
+name: KitBattleUpdated
+version: '1.0-SNAPSHOT'
+main: xyz.brakezap.kitBattleUpdated.KitBattleUpdated
+api-version: '1.20'
+authors: [ BrakeZap ]
+depend: [KitBattle]
