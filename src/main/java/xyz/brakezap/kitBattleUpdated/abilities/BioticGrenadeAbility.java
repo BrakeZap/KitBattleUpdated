@@ -8,31 +8,34 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
-import java.util.Objects;
-
-public class NinjaAbility extends Ability {
-
+public class BioticGrenadeAbility extends Ability {
     int cooldown;
     int duration;
-    int speed;
     XMaterial activationMat;
-
+    int heal;
+    int damage;
     @Override
     public String getName() {
-        return "Ninja";
+        return "Biotic-Grenade";
     }
 
     @Override
     public void load(FileConfiguration fileConfiguration) {
-        cooldown = fileConfiguration.getInt("Abilities.Ninja.Cooldown");
-        duration = fileConfiguration.getInt("Abilities.Ninja.Duration");
-        speed = fileConfiguration.getInt("Abilities.Ninja.Speed-Amount");
-        activationMat = XMaterial.matchXMaterial(fileConfiguration.getString("Abilities.Ninja.Activation-Material")).orElse(XMaterial.DIAMOND_SWORD);
+        cooldown = fileConfiguration.getInt("Abilities.Biotic-Grenade.Cooldown");
+        duration = fileConfiguration.getInt("Abilities.Biotic-Grenade.Duration");
+        heal = fileConfiguration.getInt("Abilities.Biotic-Grenade.Heal-Amount");
+        damage = fileConfiguration.getInt("Abilities.Biotic-Grenade.Damage-Amount");
+        activationMat = XMaterial.matchXMaterial(fileConfiguration.getString("Abilities.Biotic-Grenade.Activation-Material")).orElse(XMaterial.GUNPOWDER);
     }
 
     @Override
@@ -73,10 +76,18 @@ public class NinjaAbility extends Ability {
                 return false;
             }
         }
-        if (playerData.hasCooldown(player, "Ninja")) return false;
-        playerData.setCooldown(player, "Ninja", cooldown, true);
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, duration*20,
-                speed));
+        if (playerData.hasCooldown(player, "Biotic-Grenade")) {return false;}
+        playerData.setCooldown(player, "Biotic-Grenade", cooldown, true);
+
+
+
+        ThrownPotion thrownPotion = player.launchProjectile(ThrownPotion.class);
+        thrownPotion.setItem(new ItemStack(Material.LINGERING_POTION));
+        PotionMeta meta = thrownPotion.getPotionMeta();
+        meta.addCustomEffect(new PotionEffect(PotionEffectType.UNLUCK, 1, 2), true);
+        thrownPotion.setPotionMeta(meta);
+
+
 
         return true;
     }

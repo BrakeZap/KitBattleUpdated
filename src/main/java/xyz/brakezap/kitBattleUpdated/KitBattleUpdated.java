@@ -3,7 +3,12 @@ package xyz.brakezap.kitBattleUpdated;
 import me.wazup.kitbattle.abilities.AbilityManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import xyz.brakezap.kitBattleUpdated.Events.CheckIsPlaying;
+import xyz.brakezap.kitBattleUpdated.Events.CheckSpashPotion;
+import xyz.brakezap.kitBattleUpdated.abilities.BioticGrenadeAbility;
+import xyz.brakezap.kitBattleUpdated.abilities.FrostyAbility;
 import xyz.brakezap.kitBattleUpdated.abilities.NinjaAbility;
+import xyz.brakezap.kitBattleUpdated.abilities.ZombieAbility;
 
 import java.util.logging.Level;
 
@@ -18,10 +23,16 @@ public final class KitBattleUpdated extends JavaPlugin {
         }
 
         AbilityManager.getInstance().registerAbility(new NinjaAbility());
+        AbilityManager.getInstance().registerAbility(new BioticGrenadeAbility());
+        AbilityManager.getInstance().registerAbility(new FrostyAbility());
+        AbilityManager.getInstance().registerAbility(new ZombieAbility());
 
         AbilityManager.getInstance().loadAbilitiesConfig();
 
         AbilityManager.getInstance().updateKitAbilities();
+
+        Bukkit.getPluginManager().registerEvents(new CheckSpashPotion(), this);
+        Bukkit.getPluginManager().registerEvents(new CheckIsPlaying(), this);
 
         Bukkit.getLogger().log(Level.FINEST, "Successfully added new kits!");
     }
