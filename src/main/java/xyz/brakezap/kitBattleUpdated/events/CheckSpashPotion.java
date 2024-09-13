@@ -1,4 +1,4 @@
-package xyz.brakezap.kitBattleUpdated.Events;
+package xyz.brakezap.kitBattleUpdated.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

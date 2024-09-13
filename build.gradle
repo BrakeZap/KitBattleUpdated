@@ -1,5 +1,7 @@
+
 plugins {
     id 'java'
+    id 'com.gradleup.shadow' version '8.3.1'
 }
 
 group = 'xyz.brakezap'
@@ -15,12 +17,16 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
-    implementation files('libs/KitBattle.jar')
+    compileOnly files('libs/KitBattle.jar')
+    implementation 'com.github.datatags.MobChipLite:mobchip-bukkit:1.10.5'
 }
+
+
 
 def targetJavaVersion = 17
 java {

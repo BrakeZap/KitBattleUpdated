@@ -13,6 +13,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class ZombieAbility extends Ability {
     int hearts;
@@ -65,11 +67,18 @@ public class ZombieAbility extends Ability {
             Bukkit.getConsoleSender().sendMessage("Damaged with zombie event");
             Bukkit.getConsoleSender().sendMessage(p.getHealth() + "");
             if (p.getHealth() <= e.getFinalDamage()) {
-                Bukkit.getConsoleSender().sendMessage("Adding hearts!");
-                double currentHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-                player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(currentHealth + hearts);
-                player.setHealth(currentHealth + hearts);
-                player.sendHealthUpdate();
+//                Bukkit.getConsoleSender().sendMessage("Adding hearts!");
+//                double currentHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
+//                player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(currentHealth + hearts);
+//                player.setHealth(currentHealth + hearts);
+//                player.sendHealthUpdate();
+                PotionEffect currentEffect = player.getPotionEffect(PotionEffectType.HEALTH_BOOST);
+                int currentBoost = 0;
+                if (currentEffect != null) {
+                    currentBoost = currentEffect.getAmplifier();
+                    player.clearActivePotionEffects();
+                }
+                player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, PotionEffect.INFINITE_DURATION, (hearts/2)+currentBoost));
                 return true;
             }
         }
