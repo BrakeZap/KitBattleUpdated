@@ -67,7 +67,7 @@ public class NecromancerAbility extends Ability {
             if (p.getHealth() <= e.getFinalDamage()) {
                 Zombie z = (Zombie) p.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
                 z.setBaby();
-
+                z.setLootTable(null);
                 z.setShouldBurnInDay(false);
                 EntityBrain brain = BukkitBrain.getBrain(z);
                 brain.getGoalAI().clear();

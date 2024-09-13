@@ -4,6 +4,7 @@ import me.wazup.kitbattle.abilities.AbilityManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import xyz.brakezap.kitBattleUpdated.events.CheckIsPlaying;
+import xyz.brakezap.kitBattleUpdated.events.CheckProjectile;
 import xyz.brakezap.kitBattleUpdated.events.CheckSpashPotion;
 import xyz.brakezap.kitBattleUpdated.abilities.*;
 
@@ -24,6 +25,7 @@ public final class KitBattleUpdated extends JavaPlugin {
         AbilityManager.getInstance().registerAbility(new FrostyAbility());
         AbilityManager.getInstance().registerAbility(new ZombieAbility());
         AbilityManager.getInstance().registerAbility(new NecromancerAbility());
+        AbilityManager.getInstance().registerAbility(new ArcherAbility());
 
         AbilityManager.getInstance().loadAbilitiesConfig();
 
@@ -31,6 +33,7 @@ public final class KitBattleUpdated extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new CheckSpashPotion(), this);
         Bukkit.getPluginManager().registerEvents(new CheckIsPlaying(), this);
+        Bukkit.getPluginManager().registerEvents(new CheckProjectile(), this);
 
         Bukkit.getLogger().log(Level.FINEST, "Successfully added new kits!");
     }
