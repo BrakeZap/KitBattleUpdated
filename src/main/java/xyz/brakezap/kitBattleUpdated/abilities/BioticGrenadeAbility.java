@@ -3,7 +3,6 @@ package xyz.brakezap.kitBattleUpdated.abilities;
 import me.wazup.kitbattle.PlayerData;
 import me.wazup.kitbattle.abilities.Ability;
 import me.wazup.kitbattle.utils.XMaterial;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
@@ -12,15 +11,16 @@ import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
+import xyz.brakezap.kitBattleUpdated.KitBattleUpdated;
+
+
+
 
 public class BioticGrenadeAbility extends Ability {
     int cooldown;
-    int duration;
+    static int duration;
     XMaterial activationMat;
     int heal;
     int damage;
@@ -79,16 +79,20 @@ public class BioticGrenadeAbility extends Ability {
         if (playerData.hasCooldown(player, "Biotic-Grenade")) {return false;}
         playerData.setCooldown(player, "Biotic-Grenade", cooldown, true);
 
-
-
         ThrownPotion thrownPotion = player.launchProjectile(ThrownPotion.class);
-        thrownPotion.setItem(new ItemStack(Material.LINGERING_POTION));
-        PotionMeta meta = thrownPotion.getPotionMeta();
-        meta.addCustomEffect(new PotionEffect(PotionEffectType.UNLUCK, 1, 2), true);
-        thrownPotion.setPotionMeta(meta);
 
 
+        ItemStack item = new ItemStack(Material.POTION);
+
+        ItemMeta meta = item.getItemMeta();
+        meta.getPersistentDataContainer().set(KitBattleUpdated.dataKey, PersistentDataType.STRING, duration+" "+damage);
+        item.setItemMeta(meta);
+        thrownPotion.setItem(item);
 
         return true;
+    }
+
+    public static int getDuration() {
+        return duration;
     }
 }

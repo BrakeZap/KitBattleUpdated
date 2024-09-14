@@ -1,11 +1,13 @@
 package xyz.brakezap.kitBattleUpdated.events;
 
 
+import me.wazup.kitbattle.KitbattleAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-
+import xyz.brakezap.kitBattleUpdated.KitBattleUpdated;
 
 
 public class CheckIsPlaying implements Listener {
@@ -16,8 +18,14 @@ public class CheckIsPlaying implements Listener {
         if (e.getMessage().toLowerCase().contains("kb leave") || e.getMessage().toLowerCase().contains("kitbattle leave")) {
             Bukkit.getConsoleSender().sendMessage("Left arena");
             e.getPlayer().clearActivePotionEffects();
-
+            KitBattleUpdated.effectMap.invalidate(e.getPlayer().getUniqueId());
         }
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e) {
+        if (KitbattleAPI.getPlayerData(e.getPlayer()).getMap() == null) return;
+        KitBattleUpdated.effectMap.invalidate(e.getPlayer().getUniqueId());
     }
 
 }

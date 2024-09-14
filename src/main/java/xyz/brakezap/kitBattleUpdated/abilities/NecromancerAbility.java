@@ -1,8 +1,6 @@
 package xyz.brakezap.kitBattleUpdated.abilities;
 
 import me.gamercoder215.mobchip.EntityBrain;
-import me.gamercoder215.mobchip.ai.EntityAI;
-import me.gamercoder215.mobchip.ai.goal.PathfinderAvoidEntity;
 import me.gamercoder215.mobchip.bukkit.BukkitBrain;
 import me.wazup.kitbattle.PlayerData;
 import me.wazup.kitbattle.abilities.Ability;
@@ -12,7 +10,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.scheduler.BukkitScheduler;
 import xyz.brakezap.kitBattleUpdated.KitBattleUpdated;
 import xyz.brakezap.kitBattleUpdated.ai.NecromancerPathFinder;
 

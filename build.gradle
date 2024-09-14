@@ -24,6 +24,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
     compileOnly files('libs/KitBattle.jar')
     implementation 'com.github.datatags.MobChipLite:mobchip-bukkit:1.10.5'
+    implementation 'com.github.ben-manes.caffeine:caffeine:3.1.8'
 }
 
 

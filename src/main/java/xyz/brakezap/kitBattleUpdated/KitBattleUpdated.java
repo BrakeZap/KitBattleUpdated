@@ -1,17 +1,30 @@
 package xyz.brakezap.kitBattleUpdated;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import me.wazup.kitbattle.abilities.AbilityManager;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 import xyz.brakezap.kitBattleUpdated.events.CheckIsPlaying;
 import xyz.brakezap.kitBattleUpdated.events.CheckProjectile;
-import xyz.brakezap.kitBattleUpdated.events.CheckSpashPotion;
+import xyz.brakezap.kitBattleUpdated.events.CheckSplashPotion;
 import xyz.brakezap.kitBattleUpdated.abilities.*;
+import xyz.brakezap.kitBattleUpdated.potions.CustomPotionEffect;
+import xyz.brakezap.kitBattleUpdated.runnables.PotionRunner;
 
+import java.time.Duration;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public final class KitBattleUpdated extends JavaPlugin {
     public static KitBattleUpdated instance;
+    private BukkitTask potionRunner;
+    public static Cache<UUID, CustomPotionEffect> effectMap;
+    public static NamespacedKey dataKey;
+    public static NamespacedKey playerKey;
+    public static NamespacedKey valuesKey;
     @Override
     public void onEnable() {
         instance = this;
@@ -31,15 +44,21 @@ public final class KitBattleUpdated extends JavaPlugin {
 
         AbilityManager.getInstance().updateKitAbilities();
 
-        Bukkit.getPluginManager().registerEvents(new CheckSpashPotion(), this);
+        Bukkit.getPluginManager().registerEvents(new CheckSplashPotion(), this);
         Bukkit.getPluginManager().registerEvents(new CheckIsPlaying(), this);
         Bukkit.getPluginManager().registerEvents(new CheckProjectile(), this);
 
-        Bukkit.getLogger().log(Level.FINEST, "Successfully added new kits!");
+
+        potionRunner = new PotionRunner().runTaskTimer(this, 5*20, 1*20);
+        effectMap = Caffeine.newBuilder().expireAfterWrite(Duration.ofSeconds(BioticGrenadeAbility.getDuration())).build();
+        dataKey = new NamespacedKey(this, "data");
+        playerKey = new NamespacedKey(this, "player");
+        valuesKey = new NamespacedKey(this, "values");
+        this.getLogger().log(Level.INFO, "Finished setting up!");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        potionRunner.cancel();
     }
 }

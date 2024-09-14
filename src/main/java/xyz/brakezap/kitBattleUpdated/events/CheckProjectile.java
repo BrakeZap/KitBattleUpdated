@@ -1,7 +1,6 @@
 package xyz.brakezap.kitBattleUpdated.events;
 
 import me.wazup.kitbattle.KitbattleAPI;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
