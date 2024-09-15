@@ -2,7 +2,6 @@ package xyz.brakezap.kitBattleUpdated.abilities;
 
 import me.wazup.kitbattle.PlayerData;
 import me.wazup.kitbattle.abilities.Ability;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
@@ -60,8 +59,6 @@ public class ZombieAbility extends Ability {
         if (event.getEventName().equalsIgnoreCase("EntityDamageByEntityEvent")){
             EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
             Player p = (Player) e.getEntity();
-            Bukkit.getConsoleSender().sendMessage("Damaged with zombie event");
-            Bukkit.getConsoleSender().sendMessage(p.getHealth() + "");
             if (p.getHealth() <= e.getFinalDamage()) {
                 PotionEffect currentEffect = player.getPotionEffect(PotionEffectType.HEALTH_BOOST);
                 int currentBoost = 0;
@@ -74,6 +71,5 @@ public class ZombieAbility extends Ability {
             }
         }
         return false;
-
     }
 }

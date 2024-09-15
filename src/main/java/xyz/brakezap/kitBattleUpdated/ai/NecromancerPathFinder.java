@@ -46,7 +46,15 @@ public class NecromancerPathFinder extends CustomPathfinder {
         if (!targetList.isEmpty()) {
             Player target = targetList.get(0);
             brain.getController().moveTo(target.getLocation(), speed);
+
+            if (brain.getEntity().getLocation().getY() != target.getLocation().getY()) return;
+
+            if (brain.getEntity().getLocation().distance(target.getLocation()) > 2.0) return;
+
+
             brain.getEntity().attack(target);
+
+
         }
 
     }

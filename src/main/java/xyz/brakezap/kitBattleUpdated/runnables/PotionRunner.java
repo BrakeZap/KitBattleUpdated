@@ -30,6 +30,9 @@ public class PotionRunner extends BukkitRunnable {
                         p.setHealth(maxHealth);
                     }
                 } else { //Damage the player
+                    if (p.getHealth() - potion.getAmplifier() <= 0) {
+                        p.setKiller(owner);
+                    }
                     p.damage(potion.getAmplifier());
                 }
             }
