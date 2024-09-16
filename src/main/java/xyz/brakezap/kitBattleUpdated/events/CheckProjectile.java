@@ -1,6 +1,7 @@
 package xyz.brakezap.kitBattleUpdated.events;
 
 import me.wazup.kitbattle.KitbattleAPI;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +15,9 @@ public class CheckProjectile implements Listener {
         if (e.getEntity().getShooter() == null) return;
         if (!(e.getEntity().getShooter() instanceof Player)) return;
         Player p = (Player) e.getEntity().getShooter();
+        if (KitbattleAPI.getPlayerData(p).getMap() == null) return;
         if (!KitbattleAPI.getPlayerData(p).hasCooldown(p, "Archer")) return;
+        if (!(e.getEntity() instanceof Arrow)) return;
         p.setVelocity(new Vector().add(e.getEntity().getVelocity()));
     }
 }

@@ -21,13 +21,14 @@ public class PotionRunner extends BukkitRunnable {
                 Player owner = potion.getOwner();
 
                 if (owner.getUniqueId() == p.getUniqueId()) { //Heal the player
-                    double addedHealth = p.getHealth() + potion.getAmplifier();
-                    double maxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
-
-                    if (addedHealth > maxHealth) {
-                        p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue());
+                    int amplifier = potion.getAmplifier();
+                    if (amplifier == 0) {amplifier++;}
+                    double currentMaxHealth = p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
+                    double addedHealth = p.getHealth() + (amplifier*4);
+                    if (addedHealth > currentMaxHealth) {
+                        p.setHealth(currentMaxHealth);
                     } else {
-                        p.setHealth(maxHealth);
+                        p.setHealth(addedHealth);
                     }
                 } else { //Damage the player
                     if (p.getHealth() - potion.getAmplifier() <= 0) {

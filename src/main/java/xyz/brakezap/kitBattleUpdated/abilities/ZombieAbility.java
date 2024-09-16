@@ -11,6 +11,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.List;
+
 public class ZombieAbility extends Ability {
     int hearts;
 
@@ -60,13 +62,28 @@ public class ZombieAbility extends Ability {
             EntityDamageByEntityEvent e = (EntityDamageByEntityEvent) event;
             Player p = (Player) e.getEntity();
             if (p.getHealth() <= e.getFinalDamage()) {
-                PotionEffect currentEffect = player.getPotionEffect(PotionEffectType.HEALTH_BOOST);
                 int currentBoost = 0;
-                if (currentEffect != null) {
-                    currentBoost = currentEffect.getAmplifier();
-                    player.clearActivePotionEffects();
+                List<PotionEffect> effects = player.getActivePotionEffects().stream().toList();
+                player.clearActivePotionEffects();
+                if (!effects.isEmpty()) {
+                    //Bukkit.getConsoleSender().sendMessage("Effects not empty!");
+                    for (PotionEffect potion : effects) {
+                        //Bukkit.getConsoleSender().sendMessage(potion.getType().getName());
+                        //Bukkit.getConsoleSender().sendMessage((potion.getType().getName().equalsIgnoreCase("HEALTH_BOOST")) + "");
+                        if (potion.getType().getName().equalsIgnoreCase("HEALTH_BOOST")) {
+                            //Bukkit.getConsoleSender().sendMessage("Current boost of " + potion.getAmplifier());
+                            currentBoost = potion.getAmplifier();
+                            if (currentBoost >= 0) {
+                                currentBoost++;
+                            }
+                            continue;
+                        }
+                        player.addPotionEffect(potion);
+                    }
                 }
-                player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, PotionEffect.INFINITE_DURATION, (hearts/2)+currentBoost));
+                //Bukkit.getConsoleSender().sendMessage("Current hearts are: " + hearts);
+                //Bukkit.getConsoleSender().sendMessage("Adding health boost of " + (((hearts/2)+currentBoost)-1));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, PotionEffect.INFINITE_DURATION, ((hearts/2)+currentBoost)-1));
                 return true;
             }
         }

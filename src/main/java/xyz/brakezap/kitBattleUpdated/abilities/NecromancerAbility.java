@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.loot.LootTables;
+import org.bukkit.persistence.PersistentDataType;
 import xyz.brakezap.kitBattleUpdated.KitBattleUpdated;
 import xyz.brakezap.kitBattleUpdated.ai.NecromancerPathFinder;
 
@@ -65,7 +65,7 @@ public class NecromancerAbility extends Ability {
             if (p.getHealth() <= e.getFinalDamage()) {
                 Zombie z = (Zombie) player.getWorld().spawnEntity(player.getLocation(), EntityType.ZOMBIE);
                 z.setBaby();
-                z.setLootTable(LootTables.EMPTY.getLootTable());
+                z.getPersistentDataContainer().set(KitBattleUpdated.dataKey, PersistentDataType.BOOLEAN, true);
                 z.setShouldBurnInDay(false);
                 EntityBrain brain = BukkitBrain.getBrain(z);
                 brain.getGoalAI().clear();
